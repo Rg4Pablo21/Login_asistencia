@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asistencia App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./src/styles/main.css">
+</head>
+<body class="bg-secondary text-primary flex justify-center items-center min-h-screen">
+  <div id="app" class="w-full max-w-md"></div>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#00FFF7',
+            secondary: '#0D0D0D'
+          }
+        }
+      },
+      darkMode: 'class'
+    }
+  </script>
+
+  <script type="module" src="./src/auth/login.js"></script>
+</body>
+</html>
