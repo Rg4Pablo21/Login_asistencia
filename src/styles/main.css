@@ -1,98 +1,87 @@
-/* Colores base */
+/* Paleta de colores personalizada */
 :root {
-    --primary: #00FFF7;
-    --secondary: #0D0D0D;
-    --text-light: #F1F5F9;
-    --text-dark: #1E293B;
-    --accent: #FF4081;
+  --verde-claro: #4EF56E;
+  --celeste: #4EF5DF;
+  --verde-menta: #4EF5A7;
+  --verde-lima: #79F55E;
+  --azul-claro: #4ED4F5;
+  --menta-claro: #A0F5CD;
 }
 
+/* Reset y base */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--secondary);
-    color: var(--text-light);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--menta-claro);
+  color: black;
 }
 
-h1 {
-    color: var(--primary);
-}
-
-a {
-    color: var(--primary);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-form {
-    background-color: rgba(13, 13, 13, 0.95);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 0 15px var(--primary);
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border: 2px solid var(--primary);
-    border-radius: 0.5rem;
-    background: transparent;
-    color: var(--text-light);
-    font-size: 1rem;
-}
-
-input[type="text"]::placeholder,
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
-    color: #94a3b8;
-}
-
+/* Botones reutilizables */
 button {
-    width: 100%;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: var(--secondary);
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  background-color: var(--verde-claro);
+  color: black;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: var(--accent);
-    color: var(--text-light);
+  background-color: var(--verde-lima);
 }
 
-.text-center {
-    text-align: center;
+/* Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  color: black;
 }
 
-.mt-4 {
-    margin-top: 1rem;
+/* Login y formularios centrados */
+form {
+  background-color: rgba(255, 255, 255, 0.452);
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  box-shadow: 0 0 10px rgba(236, 236, 236, 0.05);
+  color: black;
 }
 
-.flex {
-    display: flex;
-    justify-content: space-between;
+/* Encabezados */
+h1, h2 {
+  color: black;
 }
 
-.shadow-xl {
-    box-shadow: 0 0 20px rgba(0, 255, 247, 0.6);
+/* Estilos de tarjetas (dashboards) */
+.admin-btn {
+  background-color: var(--celeste);
+  padding: 1.2rem;
+  border-radius: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: black;
+  transition: transform 0.2s, background-color 0.3s;
 }
 
-.max-w-sm {
-    max-width: 24rem;
+.admin-btn:hover {
+  background-color: var(--azul-claro);
+  transform: scale(1.03);
 }
+
+/* Navegación */
+nav {
+  background-color: var(--verde-menta);
+  color: black;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+

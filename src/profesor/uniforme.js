@@ -1,27 +1,44 @@
+// src/profesor/uniforme.js
+import cargarDashboardProfesor from './dashboard.js';
+
 const app = document.getElementById('app');
 
-const cargarUniforme = () => {
-    app.innerHTML = `
-        <h2 class="text-xl mb-4">Revisión de Uniforme</h2>
-        <form id="uniformeForm">
-            <input type="text" name="nombre" placeholder="Nombre del Alumno" required>
-            <label><input type="checkbox" name="playera"> Playera</label><br>
-            <label><input type="checkbox" name="pantalon"> Pantalón</label><br>
-            <label><input type="checkbox" name="zapatos"> Zapatos</label><br>
-            <label><input type="checkbox" name="sueter"> Suéter</label><br>
-            <label><input type="checkbox" name="corte_pelo"> Corte de Pelo</label><br>
-            <textarea name="observaciones" placeholder="Observaciones..." rows="3"></textarea><br>
-            <button type="submit">Guardar</button>
-        </form>
-    `;
+// Datos simulados de alumnos
+const alumnos = [
+  { id: 1, nombre: "Juan Pérez" },
+  { id: 2, nombre: "María López" },
+  { id: 3, nombre: "Carlos Ruiz" },
+];
 
-    document.getElementById('uniformeForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const form = new FormData(e.target);
-        const data = Object.fromEntries(form.entries());
-        console.log('🚨 Uniforme registrado:', data);
-        alert('✅ Revisión de uniforme guardada (simulada)');
-    });
+const renderUniformes = () => {
+  app.innerHTML = `
+    <div class="max-w-4xl mx-auto p-6">
+      <h2 class="text-2xl font-bold mb-4 text-blue-800">Reportes de Uniforme</h2>
+      <button id="btnVolver" class="btn-primary mb-4 bg-gray-500 hover:bg-gray-600">⬅ Volver</button>
+      <table class="w-full bg-white shadow rounded">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="p-2 text-left">Alumno</th>
+            <th class="p-2 text-center">Uniforme completo</th>
+            <th class="p-2 text-center">Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${alumnos.map(a => `
+            <tr class="border-t">
+              <td class="p-2">${a.nombre}</td>
+              <td class="text-center">
+                <input type="checkbox" checked disabled />
+              </td>
+              <td class="text-center">Sin observaciones</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  document.getElementById('btnVolver').addEventListener('click', () => cargarDashboardProfesor());
 };
 
-export default cargarUniforme;
+export default renderUniformes;

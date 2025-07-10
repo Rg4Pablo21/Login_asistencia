@@ -1,28 +1,43 @@
+// src/auth/forgot.js
 import { apiFetch } from '../utils/api.js';
+import renderLogin from './login.js';
 
 const app = document.getElementById('app');
 
 const renderOlvido = () => {
-    app.innerHTML = `
+  app.innerHTML = `
+    <div class="login-galaxy">
+      <div class="login-card">
+        <h2 class="login-title">Recuperar contraseña</h2>
         <form id="olvidoForm">
-            <h1 class="text-3xl text-center mb-4">Recuperar Contraseña</h1>
-            <input type="email" name="correo" placeholder="Correo electrónico" required>
-            <button type="submit">Enviar enlace</button>
-            <a href="#" id="linkLogin">Volver al login</a>
+          <input type="email" name="correo" placeholder="Correo electrónico" required />
+          <button type="submit">Enviar enlace</button>
         </form>
-    `;
+        <div class="login-links">
+          <a href="#" id="volverLogin">Volver al login</a>
+        </div>
+      </div>
+    </div>
+  `;
 
-    document.getElementById('olvidoForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const correo = e.target.correo.value;
-        const res = await apiFetch('/auth/forgot-password', 'POST', { correo });
-        alert(res.message || 'Correo enviado');
-        import('./login.js').then(mod => mod.default());
-    });
+  const form = document.getElementById('olvidoForm');
 
-    document.getElementById('linkLogin').addEventListener('click', () => {
-        import('./login.js').then(mod => mod.default());
-    });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const correo = form.correo.value.trim();
+
+    if (!correo) return alert('Debes ingresar un correo');
+
+    const res = await apiFetch('https://backend-nuevooooo-1.onrender.com/auth/forgot-password', 'POST', { correo });
+
+    alert(res.message || 'Se ha enviado el correo');
+    renderLogin(); // volver al login automáticamente
+  });
+
+  document.getElementById('volverLogin').addEventListener('click', (e) => {
+    e.preventDefault();
+    renderLogin();
+  });
 };
 
 export default renderOlvido;

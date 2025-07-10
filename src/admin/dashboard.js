@@ -1,27 +1,31 @@
-import { cerrarSesion } from '../utils/authGuard.js';
-import cargarGestionProfesores from './profesores.js';
-
 const app = document.getElementById('app');
 
 const cargarAdminDashboard = () => {
-    app.innerHTML = `
-        <div class="p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h1 class="text-xl font-bold">Panel del Administrador</h1>
-                <button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                    Cerrar sesión
-                </button>
-            </div>
-            <div class="space-y-2">
-                <button id="btnGestionProfesores" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
-                    Gestionar Profesores
-                </button>
-            </div>
-        </div>
-    `;
+  app.innerHTML = `
+    <section class="admin-dashboard">
+      <h1>Panel del Administrador</h1>
 
-    document.getElementById('logoutBtn').addEventListener('click', cerrarSesion);
-    document.getElementById('btnGestionProfesores').addEventListener('click', cargarGestionProfesores);
+      <div class="dashboard-buttons">
+        <button id="btnNiveles" class="admin-btn">📚 Gestionar Niveles y Grados</button>
+        <button id="btnProfesores" class="admin-btn">👨‍🏫 Gestionar Profesores</button>
+        <button id="btnSalir" class="admin-btn salir">🔙 Cerrar sesión</button>
+      </div>
+    </section>
+  `;
+
+  document.getElementById('btnNiveles').addEventListener('click', () => {
+    import('./niveles.js').then(mod => mod.default());
+  });
+
+  document.getElementById('btnProfesores').addEventListener('click', () => {
+    import('./profesores.js').then(mod => mod.default());
+  });
+
+  // 🔧 CORREGIDO: se agregó 'click' como primer argumento
+  document.getElementById('btnSalir').addEventListener('click', () => {
+    localStorage.clear();
+    location.reload();
+  });
 };
 
 export default cargarAdminDashboard;

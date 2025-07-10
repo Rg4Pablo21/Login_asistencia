@@ -1,9 +1,10 @@
-const API_BASE = 'http://localhost:4000/api';
+const API_BASE = 'https://backend-nuevooooo-1.onrender.com/api';
 
-export const apiFetch = async (endpoint, method = 'GET', data = null, token = null) => {
+export const apiFetch = async (endpoint, method = 'GET', data = null) => {
     const headers = {
         'Content-Type': 'application/json',
     };
+    const token = localStorage.getItem('token');
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     const options = {
