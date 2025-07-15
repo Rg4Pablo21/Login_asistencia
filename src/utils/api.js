@@ -21,7 +21,13 @@ export const apiFetch = async (endpoint, method = 'GET', data = null) => {
     if(response.status == 204) {
         return;
     } else {
-        return response.json();
+        try {
+            return response.json();
+        } catch(Error) {
+            console.error(Error);
+            return response.body;
+        }
+        
     }
 
     
