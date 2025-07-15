@@ -12,76 +12,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--menta-claro);
-  color: black;
-}
-
-/* Botones reutilizables */
-button {
-  background-color: var(--verde-claro);
-  color: black;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: var(--verde-lima);
-}
-
-/* Inputs */
-input, select, textarea {
-  width: 100%;
-  padding: 0.6rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.4rem;
-  font-size: 1rem;
-  color: black;
-}
-
-/* Login y formularios centrados */
-form {
-  background-color: rgba(255, 255, 255, 0.452);
-  padding: 2rem;
-  border-radius: 1rem;
-  max-width: 400px;
-  margin: 2rem auto;
-  box-shadow: 0 0 10px rgba(236, 236, 236, 0.05);
-  color: black;
-}
-
-/* Encabezados */
-h1, h2 {
-  color: black;
-}
-
-/* Estilos de tarjetas (dashboards) */
-.admin-btn {
-  background-color: var(--celeste);
-  padding: 1.2rem;
-  border-radius: 1rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: black;
-  transition: transform 0.2s, background-color 0.3s;
-}
-
-.admin-btn:hover {
-  background-color: var(--azul-claro);
-  transform: scale(1.03);
-}
-
-/* Navegación */
-nav {
-  background-color: var(--verde-menta);
-  color: black;
-  padding: 1rem;
-  font-weight: bold;
+    
 }
 
 

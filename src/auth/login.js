@@ -1,24 +1,33 @@
 import { apiFetch } from '../utils/api.js';
-import cargarAdminDashboard from '../admin/dashboard.js';
-import cargarProfesorDashboard from '../profesor/dashboard.js';
+import { parseJWT } from '../utils/helpers.js';
+import cargarAdminDashboard from '../pages/admin/dashboard.js';
+import cargarProfesorDashboard from '../pages/profesor/dashboard.js';
+import { APIURLS } from '../utils/environments.js';
 
 const app = document.getElementById('app');
 
 const cargarLogin = () => {
   app.innerHTML = `
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#4EF5A7] to-[#4ED4F5]">
-      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <main class="form-signin w-100 m-auto pt-5">
+      <div class="bg-white p-5 rounded shadow m-auto mt-5" style="max-width:375px;">
         <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Iniciar Sesión</h2>
-        <form id="loginForm" class="space-y-4">
-          <input type="email" name="correo" placeholder="Correo electrónico" required class="w-full px-4 py-2 border rounded" />
-          <input type="password" name="password" placeholder="Contraseña" required class="w-full px-4 py-2 border rounded" />
-          <button type="submit" class="w-full bg-[#4EF5A7] hover:bg-[#79F55E] text-white py-2 rounded">Entrar</button>
+        <form id="loginForm" class="space-y-4 ">
+          <div class="form-floating mb-3">
+            <input type="email" name="username" placeholder="Correo electrónico" required class="form-control w-full px-4 py-2 border rounded" />
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" name="password" placeholder="Contraseña" required class="form-control w-full px-4 py-2 border rounded" />            
+            <label for="floatingInput">Contraseña</label>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100 py-2">Entrar</button>
         </form>
         <div class="mt-4 text-center">
           <a href="#" id="linkRecuperar" class="text-sm text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
         </div>
       </div>
-    </div>
+    </main>
   `;
 
   const form = document.getElementById('loginForm');
@@ -27,20 +36,18 @@ const cargarLogin = () => {
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await apiFetch('https://backend-nuevooooo-1.onrender.com/auth/login', 'POST', data);
+      //const res = await apiFetch('https://backend-nuevooooo-1.onrender.com/auth/login', 'POST', data);
+      const res = await apiFetch(APIURLS.auth.login, 'POST', data);
 
-      if (res.token && res.rol) {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('rol', res.rol);
+      console.log(res);
 
-        // Redirige según el rol
-        if (res.rol === 'administrador') {
-          cargarAdminDashboard();
-        } else if (res.rol === 'profesor') {
-          cargarProfesorDashboard();
-        } else {
-          alert('Rol no reconocido');
-        }
+      if (res.token) {
+        const parsedToken = parseJWT(res.token);
+
+        localStorage.setItem('token', res.token);        
+        localStorage.setItem('rol', parsedToken.rol);
+
+        cargarAdminDashboard();
       } else {
         alert(res.message || 'Error en el inicio de sesión');
       }
