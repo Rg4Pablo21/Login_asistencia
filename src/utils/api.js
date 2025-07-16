@@ -22,8 +22,11 @@ export const apiFetch = async (endpoint, method = 'GET', data = null) => {
         return;
     } else {
         try {
+            console.info("Respondiendo desde: " + endpoint);
+            console.log(response.body)
             return response.json();
         } catch(Error) {
+            console.error('consumiento : ' + endpoint);
             console.error(Error);
             return response.body;
         }

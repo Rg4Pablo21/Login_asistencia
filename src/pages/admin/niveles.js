@@ -4,13 +4,23 @@ import {closeAllModals} from '../../utils/helpers.js';
 import {cargarAdminMenu, adminMenuActions } from './admin-menu.js';
 import cargarAdminDashboard from './dashboard.js';
 import cargarGradosPorNivelId from './grados-nivel.js';
+import { parseJWT } from '../../utils/helpers.js'
 
 const app = document.getElementById('app');
 
 const cargarNiveles = async () => {
-  const token = obtenerToken();
-  const niveles = await apiFetch('/niveles', 'GET', null, token);
   const rol = localStorage.getItem('rol');
+  const tkn = localStorage.getItem('token');
+  const parsedToken = parseJWT(tkn);
+  const token = obtenerToken();
+  let niveles = [];
+  if(rol == 'profesor') {
+    niveles = await apiFetch('/niveles/profesor/' + parsedToken.id, 'GET', null, token);
+  } else {
+    niveles = await apiFetch('/niveles', 'GET', null, token);
+  }
+  
+  
   
 
   if (!Array.isArray(niveles)) {
@@ -137,7 +147,7 @@ const cargarNiveles = async () => {
     let resultado = await apiFetch('/niveles', 'POST', { nombre : nombre.value }, token);
     console.log(resultado);
     closeAllModals();
-    cargarNiveles();
+    await cargarNiveles();
   })
 
   document.getElementById('formNivel').addEventListener('submit', async (e) => {
@@ -145,7 +155,7 @@ const cargarNiveles = async () => {
     const nombre = e.target.nombre.value;
     await apiFetch('/niveles', 'POST', { nombre }, token);
     closeAllModals();
-    cargarNiveles();
+    await cargarNiveles();
   });
 
   document.querySelectorAll('.formGrado').forEach(form => {
@@ -154,7 +164,7 @@ const cargarNiveles = async () => {
       const nivel_id = e.target.getAttribute('data-nivel');
       const nombre = e.target.nombre.value;
       await apiFetch(`/admin/grados`, 'POST', { nombre, nivel_id }, token);
-      cargarNiveles();
+      await cargarNiveles();
     });
   });
 
@@ -165,7 +175,7 @@ const cargarNiveles = async () => {
       if (confirm('¿Seguro que deseas eliminar el nivel ' + nivelNombre + '?')) {
         const id = btn.getAttribute('data-id');
         await apiFetch(`/niveles/${id}`, 'DELETE', null, token);
-        cargarNiveles();
+        await cargarNiveles();
       }
     });
   });
@@ -181,7 +191,7 @@ const cargarNiveles = async () => {
       const id = btn.getAttribute('data-id');
       
       console.log(123);
-      cargarGradosPorNivelId(id);
+      await cargarGradosPorNivelId(id);
       //cargarNiveles();
       
     });

@@ -143,7 +143,7 @@ const cargarGradosPorNivelId = async (id) => {
         let resultado = await apiFetch('/grados', 'POST', data , token);
         console.log(resultado);
         closeAllModals();
-        cargarGradosPorNivelId(nivelActual.id);
+        await cargarGradosPorNivelId(nivelActual.id);
     });
 
     document.querySelectorAll('.btnEliminarElemento').forEach(btn => {
@@ -153,7 +153,7 @@ const cargarGradosPorNivelId = async (id) => {
         if (confirm('¿Seguro que deseas eliminar el grado ' + gradoNombre + '?')) {
             const id = btn.getAttribute('data-id');
             await apiFetch(`/grados/${id}`, 'DELETE', null, token);
-            cargarGradosPorNivelId(nivelActual.id);
+            await cargarGradosPorNivelId(nivelActual.id);
         }
         });
     });
@@ -161,9 +161,7 @@ const cargarGradosPorNivelId = async (id) => {
     document.querySelectorAll('.btnCargarAlumnos').forEach(btn => {
         btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
-        
-        console.log(123);
-        cargarAlmunosPorGradoId(id);
+        await cargarAlmunosPorGradoId(id);
         //cargarNiveles();
         
         });
@@ -172,9 +170,7 @@ const cargarGradosPorNivelId = async (id) => {
     document.querySelectorAll('.btnCargarTomarAsistencia').forEach(btn => {
         btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
-        
-        console.log(123);
-        cargarAsistenciaPorGradoId(id);
+        await  cargarAsistenciaPorGradoId(id);
         //cargarNiveles();
         
         });

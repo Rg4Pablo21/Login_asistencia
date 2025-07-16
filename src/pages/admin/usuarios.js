@@ -164,7 +164,7 @@ const cargarUsuarios = async () => {
         let resultado = await apiFetch('/usuarios', 'POST', data , token);
         console.log(resultado);
         closeAllModals();
-        cargarUsuarios();
+        await cargarUsuarios();
     });
 
     document.getElementById('perfilInp').addEventListener('change', (evt) => {
@@ -183,7 +183,7 @@ const cargarUsuarios = async () => {
         if (confirm('¿Seguro que deseas eliminar el grado ' + gradoNombre + '?')) {
             const id = btn.getAttribute('data-id');
             await apiFetch(`/usuarios/${id}`, 'DELETE', null, token);
-            cargarUsuarios();
+            await cargarUsuarios();
         }
         });
     });

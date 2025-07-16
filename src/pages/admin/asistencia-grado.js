@@ -11,7 +11,7 @@ const cargarAsistenciaPorGradoId = async (id) => {
     const token = obtenerToken();
     const alumnos = await apiFetch('/grados/' + id + '/alumnos', 'GET', null, token);
     const gradoActual = await apiFetch('/grados/' + id, 'GET', null, token);
-    const nivelActual = await apiFetch('/niveles/' + id, 'GET', null, token);
+    const nivelActual = await apiFetch('/niveles/' + gradoActual.nivel_id, 'GET', null, token);
     const rol = localStorage.getItem('rol');
     var current = {};
     var selectedFecha;
@@ -28,19 +28,28 @@ const cargarAsistenciaPorGradoId = async (id) => {
                 ${nivelActual.nombre} > ${gradoActual.nombre} > <input type='date' id="fechaAsistencia" />
             </h1>
             
-            <div class="container-fluid bg-white rouded shadow p-5">
+            <div class="container-fluid bg-white rouded shadow p-2 my-2">
             
                 <div class="row mb-3">          
-                <div class="col">
-                    <h4>Lista de Alumnos</h4>
-                </div>
-                <div class="col text-end">
-                    
-                    <button class="btn btn-success text-white" id="btnGuardarAsistencia">
-                        <i class="fa-solid fa-floppy-disk"></i> Guardar Asistencia
-                    </button>
+                    <div class="col">
+                        <h4>Lista de Alumnos</h4>                    
+                    </div>
+                    <div class="col text-end">
+                        
+                        <button class="btn btn-success text-white" id="btnGuardarAsistencia">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar Asistencia
+                        </button>
 
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="border rounded p-2 my-2 ">
+                            Asisistencia: 
+                                <button class="btn btn-primary btn-sm" id="btnSelectAll">Seleccionar todos</button> 
+                                <button class="btn btn-warning btn-sm" id="btnDeselectAll">Deseleccionar todos</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -69,7 +78,7 @@ const cargarAsistenciaPorGradoId = async (id) => {
                                 <td>${alumno.nombre}</td>
                                 
                                 <td class="text-center">
-                                    <input class="form-check-input" type="checkbox" value="1" id="asistenciaCheck_${alumno.id}">
+                                    <input class="form-check-input asistenciaCheckbox" type="checkbox" value="1" id="asistenciaCheck_${alumno.id}">
                                 </td>
                                 
                                 <td class="text-center">
@@ -201,20 +210,18 @@ const cargarAsistenciaPorGradoId = async (id) => {
     document.getElementById('btnGuardarAsistencia').addEventListener('click', async (evt) => {
         evt.preventDefault();
 
+        evt.target.disabled = true;
+        evt.target.innerText = "Enviando...";
+
+
         if(typeof current == 'undefined' || current == null || typeof current.fecha == 'undefined' || current.fecha == null ) {
             alert("Debes seleccionar una fecha");
+            evt.target.disabled = false;
+            evt.target.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Guardar Asistencia`;
             return;
         }
 
-        //let asistencia = await apiFetch('/asistencias/' + gradoActual.id + '/' + evt.target.value, 'GET', null, token);
-        console.log(evt)
-        console.log(evt.target.value);
-
-        console.log(current);
-
         let filas = document.querySelectorAll('.alumnoFila');
-        console.log(filas);
-        
         if(filas != null){
 
             let data = {
@@ -246,15 +253,17 @@ const cargarAsistenciaPorGradoId = async (id) => {
                 } else {
                     data.tarde = 1;
                 }
-
-                console.log(data);
-
                 await apiFetch('/asistencias/', 'POST', data, token);
 
             }
 
             
         }
+
+        evt.target.disabled = false;
+        evt.target.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Guardar Asistencia`;
+        alert("asistencia guardada");
+        return;
         
 
     });
@@ -268,6 +277,9 @@ const cargarAsistenciaPorGradoId = async (id) => {
     document.getElementById('enviarBtn').addEventListener( 'click', async (evt) => {
         evt.preventDefault();
 
+        evt.target.disabled = true;
+        evt.target.innerText = "Enviando...";
+
         let notificacionFormElement = document.getElementById('formNotificacion');
         let notificacionForm = new FormData(notificacionFormElement);
         let data = Object.fromEntries(notificacionForm.entries());
@@ -278,8 +290,22 @@ const cargarAsistenciaPorGradoId = async (id) => {
         notificacionFormElement.reset();
         alert('notificacion enviada');
         
+        evt.target.disabled = false;
+        evt.target.innerText = "Enviar";
         
         
+    });
+
+    document.getElementById('btnSelectAll').addEventListener( 'click', (evt) => {
+        document.querySelectorAll(".asistenciaCheckbox").forEach( (check) => {
+            check.checked = true;
+        } )
+    });
+
+    document.getElementById('btnDeselectAll').addEventListener( 'click', (evt) => {
+        document.querySelectorAll(".asistenciaCheckbox").forEach( (check) => {
+            check.checked = false;
+        } )
     });
 
 
